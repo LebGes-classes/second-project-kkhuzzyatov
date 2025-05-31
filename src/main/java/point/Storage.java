@@ -12,15 +12,15 @@ import java.util.ArrayList;
 public class Storage extends Point {
     public Storage() {}
 
-    public Storage(int id, String address, int molId) {
-        super(id, address, false);
+    public Storage(int id, String address) {
+        super(id, address, "false");
+    }
+
+    public Storage(int id, String address, String isClosed) {
+        super(id, address, isClosed);
     }
 
     private final String STORAGE_XLSX_FILE_PATH = "./files/storage.xlsx";
-
-    public Storage(int id, String address) {
-        super(id, address, false);
-    }
 
     public Storage findStorageByAddress(String address) throws IOException, InvalidFormatException {
         ArrayList<Storage> storages = getStorages();
@@ -50,9 +50,9 @@ public class Storage extends Point {
             if (row.getRowNum() != 0) {
                 String gotId = dataFormatter.formatCellValue(row.getCell(0));
                 String gotAddress = dataFormatter.formatCellValue(row.getCell(1));
-                String gotMolId = dataFormatter.formatCellValue(row.getCell(2));
+                String gotClosedStatus = dataFormatter.formatCellValue(row.getCell(2));
 
-                Storage storage = new Storage(Integer.parseInt(gotId), gotAddress, Integer.parseInt(gotMolId));
+                Storage storage = new Storage(Integer.parseInt(gotId), gotAddress, gotClosedStatus);
                 storages.add(storage);
             }
         }
@@ -64,7 +64,7 @@ public class Storage extends Point {
     }
 
     public void updateStorageFile(ArrayList<Storage> storages) throws IOException, InvalidFormatException {
-        String[] columns = {"id", "address", "mol_id"};
+        String[] columns = {"id", "address", "is_closed"};
 
         // Create a Workbook
         Workbook workbook = new XSSFWorkbook();     // new HSSFWorkbook() for generating `.xls` file
@@ -102,6 +102,9 @@ public class Storage extends Point {
 
             row.createCell(1)
                     .setCellValue(storage.getAddress());
+
+            row.createCell(2)
+                    .setCellValue(storage.isClosed());
         }
 
         // Resize all columns to fit the content size
@@ -115,24 +118,5 @@ public class Storage extends Point {
         fileOut.close();
 
         workbook.close();
-    }
-
-    public void purchaseGoods(int cellId, int number) throws IOException, InvalidFormatException {
-        ArrayList<Cell> cells = super.getCells(super.getId());
-        Cell neededCell = null;
-        for (Cell cell : cells) {
-            if (cell.getId() == cellId) {
-                neededCell = cell;
-            }
-        }
-        if (neededCell == null) {
-            System.out.println("Cell isn't found in sell point.");
-            return;
-        }
-        if (neededCell.getProductQuantity() + number < neededCell.getCapacity()) {
-            neededCell.manageProductQuantity(number);
-        } else {
-            System.out.println("There aren't enough space in cell.");
-        }
     }
 }

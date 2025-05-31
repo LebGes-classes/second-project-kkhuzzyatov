@@ -16,7 +16,7 @@ public class SalePoint extends Point {
     private final String SALE_POINT_XLSX_FILE_PATH = "./files/sale_point.xlsx";
 
     public SalePoint(int id, String address) {
-        super(id, address, false);
+        super(id, address, "false");
     }
 
     public SalePoint findSalePointByAddress(String address) throws IOException, InvalidFormatException {

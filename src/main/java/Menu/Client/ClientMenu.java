@@ -14,9 +14,9 @@ public class ClientMenu {
 
         System.out.println("====== МИНЮ КЛИЕНТА ======\n\n");
         System.out.println("1. Купить товар");
-        System.out.println("2. Вернуть товар");
-        System.out.println("3. Список товаров которые можно купить");
-        System.out.println("4. Список покупок пользователя");
+        // System.out.println("3. Вернуть товар");
+        System.out.println("2. Список товаров которые можно купить");
+        // System.out.println("4. Список покупок пользователя");
         System.out.println("0. Перейти в главное меню");
         System.out.print("Выберите опцию: ");
 
@@ -27,11 +27,11 @@ public class ClientMenu {
             case 1:
                 BuyGoodMenu.buyGood(clientId);
                 break;
-            case 2:
+            case 3:
                 RefundGoodMenu.refundGood(clientId);
                 break;
-            case 3:
-                BuyGoodMenu.printGoodsAvailableToBuy();
+            case 2:
+                BuyGoodMenu.printGoodsAvailableToBuy(clientId);
                 break;
             case 4:
                 RefundGoodMenu.printAllPurchases(clientId);

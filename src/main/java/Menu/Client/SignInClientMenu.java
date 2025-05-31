@@ -16,10 +16,10 @@ public class SignInClientMenu {
 
         System.out.println("====== ВХОД В КАЧЕСТВЕ КЛИЕНТА ======\n\n");
 
-        System.out.print("Телефон: ");
+        System.out.print("Телефон:  ");
         String phoneNumber = scanner.nextLine();
 
-        System.out.print("Пароль: ");
+        System.out.print("Пароль:   ");
         String password = scanner.nextLine();
 
         boolean isFound = false;

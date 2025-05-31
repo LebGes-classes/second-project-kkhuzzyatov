@@ -8,76 +8,80 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class EmployeeMenu {
-    public static void openEmployeeMenu(int clientId) throws IOException, InvalidFormatException {
+    public static void openEmployeeMenu() throws IOException, InvalidFormatException {
         Utils.clearConsole();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("====== МИНЮ КЛИЕНТА ======\n\n");
-        System.out.println("1. Закупить товар на склад");
-        System.out.println("2. Получить информацию о товарах доступных к закупке");
-        System.out.println("3. Нанять сотрудника");
-        System.out.println("4. Уволить сотрудника");
-        System.out.println("5. Повысить сотрудника");
-        System.out.println("6. Открыть новый склад");
-        System.out.println("7. Открыть новый пункт продаж");
-        System.out.println("8. Закрыть склад");
-        System.out.println("9. Закрыть пункт продаж");
-        System.out.println("10. Получить информацию о складе");
-        System.out.println("11. Получить информацию о пункте продаж");
-        System.out.println("12. Получить информацию о товарах на складе");
-        System.out.println("13. Получить информацию о товарах на пункте продаж");
-        System.out.println("14. Добавить новый продукт");
-        System.out.println("0. Перейти в главное меню");
+        System.out.println("====== МИНЮ СОТРУДНИКА ======\n\n");
+        System.out.println("0.   Перейти в главное меню");
+        System.out.println("1.   Открыть новый склад");
+        System.out.println("2.   Получить информацию о складе");
+        System.out.println("3.   Закрыть склад");
+        System.out.println("4.   Нанять сотрудника");
+        System.out.println("5.   Повысить сотрудника");
+        System.out.println("6.   Уволить сотрудника");
+        System.out.println("7.   Добавить новый продукт");
+        System.out.println("8.   Получить информацию о товарах доступных к закупке");
+        System.out.println("9.   Создать ячейку");
+        System.out.println("10.  Закупить товар на склад");
+        System.out.println("11.  Получить информацию о товарах на складе");
+        System.out.println("12.  Открыть новый пункт продаж");
+        System.out.println("13.  Получить информацию о пункте продаж");
+        System.out.println("14.  Получить информацию о товарах на пункте продаж");
+        System.out.println("15.  Закрыть пункт продаж");
         System.out.print("Выберите опцию: ");
 
         int choice;
         choice = scanner.nextInt();
 
         switch (choice) {
+            case 0:
+                MainMenu.moveToMainMenu();
+                break;
             case 1:
-                ShoppingForStorageMenu.purchaseGoodsForStorage(clientId);
+                PointManagerMenu.openNewStorage();
                 break;
             case 2:
-                AddingNewProductMenu.printProducts();
+                PointManagerMenu.printStorages();
                 break;
             case 3:
-                HiringEmployeeMenu.hireEmployee();
+                PointManagerMenu.closeStorage();
                 break;
             case 4:
-                FiringEmployeeMenu.fireEmployee();
+                HiringEmployeeMenu.hireEmployee();
                 break;
             case 5:
                 PromotionEmployeeMenu.promoteEmployee();
                 break;
             case 6:
-                PointManagerMenu.openNewStorage();
+                FiringEmployeeMenu.fireEmployee();
                 break;
             case 7:
-                PointManagerMenu.openNewSalePoint();
-                break;
-            case 8:
-                PointManagerMenu.closeStorage();
-                break;
-            case 9:
-                PointManagerMenu.closeSalePoint();
-                break;
-            case 10:
-                PointManagerMenu.printStorages();
-                break;
-            case 11:
-                PointManagerMenu.printSalePoints();
-                break;
-            case 12:
-                PointManagerMenu.printCellsOnStorage();
-                break;
-            case 13:
-                PointManagerMenu.printCellsOnSalePoint();
-                break;
-            case 14:
                 AddingNewProductMenu.addProduct();
                 break;
-            case 0:
-                MainMenu.moveToMainMenu();
+            case 8:
+                AddingNewProductMenu.printProducts();
+                break;
+            case 9:
+                PointManagerMenu.addCell();
+                break;
+            case 10:
+                ShoppingForStorageMenu.purchaseGoodsForStorage();
+                break;
+            case 11:
+                PointManagerMenu.printCellsOnStorage();
+                break;
+            case 12:
+                PointManagerMenu.openNewSalePoint();
+                break;
+            case 13:
+                PointManagerMenu.printSalePoints();
+                break;
+            case 14:
+                PointManagerMenu.printCellsOnSalePoint();
+                break;
+            case 15:
+                PointManagerMenu.closeSalePoint();
                 break;
             default:
                 System.out.println("Неверный выбор.");
@@ -85,5 +89,15 @@ public class EmployeeMenu {
         }
 
         MainMenu.moveToMainMenu();
+    }
+
+    public static void moveToEmployeeMenu() throws IOException, InvalidFormatException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("\nНажмите любую клавишу, чтобы перейти в меню сотрудника.");
+        scanner.nextLine();
+
+        Utils.clearConsole();
+        openEmployeeMenu();
     }
 }

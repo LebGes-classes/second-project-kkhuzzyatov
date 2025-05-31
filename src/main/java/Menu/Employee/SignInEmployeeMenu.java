@@ -16,10 +16,10 @@ public class SignInEmployeeMenu {
 
         System.out.println("====== ВХОД В КАЧЕСТВЕ СОТРУДНИКА ======\n\n");
 
-        System.out.print("Телефон: ");
+        System.out.print("Телефон:  ");
         String phoneNumber = scanner.nextLine();
 
-        System.out.print("Пароль: ");
+        System.out.print("Пароль:   ");
         String password = scanner.nextLine();
 
         boolean isFound = false;
@@ -31,7 +31,7 @@ public class SignInEmployeeMenu {
                 if (employee.getPasswordHash() == Utils.passwordCoder(password)) {
                     employeeLevel = employee.getPosition();
                     if (employeeLevel.equals(emptyEmployee.getL3PositionName())) {
-                        EmployeeMenu.openEmployeeMenu(employee.getId());
+                        EmployeeMenu.openEmployeeMenu();
                     }
                     isFound = true;
                 }
@@ -43,6 +43,6 @@ public class SignInEmployeeMenu {
             System.out.println("Пользователь имеет недостаточный уровень должности для управления.");
         }
 
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 }

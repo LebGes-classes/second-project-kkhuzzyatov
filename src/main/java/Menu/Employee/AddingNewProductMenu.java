@@ -30,9 +30,10 @@ public class AddingNewProductMenu {
 
             ArrayList<Product> products = emptyProduct.getProducts();
             products.add(new Product(products.size() + 1, nameOfProduct, purchasingPrice, priceForClient));
+            emptyProduct.updateProductFile(products);
         }
 
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 
     public static void printProducts() throws IOException, InvalidFormatException {
@@ -45,7 +46,6 @@ public class AddingNewProductMenu {
             System.out.println(product.getId() + " " + product.getName() + " " + product.getPriceOfPurchasing() + " " + product.getPriceForClient());
         }
 
-
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 }

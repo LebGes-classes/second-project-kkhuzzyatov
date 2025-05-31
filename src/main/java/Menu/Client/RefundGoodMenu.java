@@ -40,7 +40,8 @@ public class RefundGoodMenu {
             System.out.print("Не удалось найти покупку");
         }
 
-        MainMenu.moveToMainMenu();
+        scanner.nextInt();
+        ClientMenu.openClientMenu(clientId);
     }
 
     public static void printAllPurchases(int clientId) throws IOException, InvalidFormatException {
@@ -56,6 +57,7 @@ public class RefundGoodMenu {
             }
         }
 
-        MainMenu.moveToMainMenu();
+        scanner.nextInt();
+        ClientMenu.openClientMenu(clientId);
     }
 }

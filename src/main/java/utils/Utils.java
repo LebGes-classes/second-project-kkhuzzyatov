@@ -2,10 +2,8 @@ package utils;
 
 public class Utils {
     public static void clearConsole() {
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (Exception E) {
-            System.out.println(E);
+        for (int i = 0; i < 30; i++) {
+            System.out.println();
         }
     }
 

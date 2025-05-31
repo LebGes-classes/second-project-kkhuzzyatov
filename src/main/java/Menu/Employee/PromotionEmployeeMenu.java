@@ -25,6 +25,6 @@ public class PromotionEmployeeMenu {
             System.out.print(thisEmployee.promote());
         }
 
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 }

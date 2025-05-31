@@ -15,10 +15,10 @@ public class BuyGoodMenu {
         Utils.clearConsole();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("====== МИНЮ ПОКУПКИ ТОВАРА ======\n\n");
-        System.out.print("Введите id ячейки из которой хотите купить товар: ");
+        System.out.println("====== МИНЮ ЗАКУПОК ТОВАРОВ ======\n\n");
+        System.out.print("Введите id ячейки в которую хотите закупить товары: ");
         int cellId = scanner.nextInt();
-        System.out.print("Введите количество товара, которое хотите купить: ");
+        System.out.print("Введите количество товара: ");
         int number = scanner.nextInt();
 
         boolean isFound = false;
@@ -26,33 +26,31 @@ public class BuyGoodMenu {
         ArrayList<Cell> cells = emptyCell.getCells();
         for (Cell cell : cells) {
             if (cell.getId() == cellId) {
-                SalePoint emptySalePoint = new SalePoint();
-                ArrayList<SalePoint> salePoints = emptySalePoint.getSalePoints();
-                for (SalePoint salePoint : salePoints) {
-                    if (salePoint.getId() == cell.getPointId()) {
-                        salePoint.saleProduct(cellId, clientId, number);
-                        isFound = true;
-                    }
-                }
+                isFound = true;
+                cell.manageProductQuantity(-number);
+                System.out.print("Товары закуплены");
             }
         }
+        emptyCell.updateCellFile(cells);
         if (!isFound) {
             System.out.print("Не удалось найти ячейку");
         }
 
-        MainMenu.moveToMainMenu();
+        String stub = scanner.nextLine();
+        ClientMenu.openClientMenu(clientId);
     }
 
-    public static void printGoodsAvailableToBuy() throws IOException, InvalidFormatException {
+    public static void printGoodsAvailableToBuy(int clientId) throws IOException, InvalidFormatException {
         Utils.clearConsole();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("id capacity point_id product_quantity");
         Cell emptyCell = new Cell();
         ArrayList<Cell> cells = emptyCell.getCells();
         for (Cell cell : cells) {
-            System.out.println(cell.getId() + " " + cell.getCapacity() + " " + cell.getPointId() + " " + cell.getProductQuantity());
+            System.out.println("Id: " + cell.getId() + " PointId: " + cell.getPointId() + " Capacity: " + cell.getCapacity() + " ProductQuantity: " + cell.getProductQuantity() + "ProductId: " + cell.getProductId());
         }
 
+        scanner.nextLine();
+        ClientMenu.openClientMenu(clientId);
     }
 }

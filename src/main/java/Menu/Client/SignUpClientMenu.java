@@ -16,16 +16,16 @@ public class SignUpClientMenu {
 
         System.out.println("====== РЕГИСТРАЦИЯ КЛИЕНТА ======\n\n");
 
-        System.out.print("Имя: ");
+        System.out.print("Имя:      ");
         String firstName = scanner.nextLine();
 
-        System.out.print("Фамилия: ");
+        System.out.print("Фамилия:  ");
         String lastName = scanner.nextLine();
 
-        System.out.print("Телефон: ");
+        System.out.print("Телефон:  ");
         String phoneNumber = scanner.nextLine();
 
-        System.out.print("Пароль: ");
+        System.out.print("Пароль:   ");
         String password = scanner.nextLine();
 
         Client client = new Client();

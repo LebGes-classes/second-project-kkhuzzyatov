@@ -30,6 +30,6 @@ public class FiringEmployeeMenu {
             }
         }
 
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 }

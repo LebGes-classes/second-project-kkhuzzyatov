@@ -28,10 +28,14 @@ public class PointManagerMenu {
             storages.add(new Storage(emptyStorage.getStorages().size() + 1, address));
             emptyStorage.updateStorageFile(storages);
         } else {
-            System.out.print("На указанном адресе уже открыт склад.");
+            if (thisStorage.isClosed().equals("false")) {
+                System.out.print("На указанном адресе уже открыт склад.");
+            } else {
+                thisStorage.setClosed("false");
+            }
         }
 
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 
     public static void openNewSalePoint() throws IOException, InvalidFormatException {
@@ -53,7 +57,7 @@ public class PointManagerMenu {
             System.out.print("На указанном адресе уже открыт точку продаж.");
         }
 
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 
     public static void closeStorage() throws IOException, InvalidFormatException {
@@ -64,9 +68,16 @@ public class PointManagerMenu {
         System.out.print("Введите адрес места, где хотите закрыть склад: ");
         String address = scanner.nextLine();
         Storage emptyStorage = new Storage();
-        Storage thisStorage = emptyStorage.findStorageByAddress(address);
-        if (thisStorage != null && !thisStorage.isClosed()) {
-            thisStorage.setClosed(true);
+        ArrayList<Storage> storages = emptyStorage.getStorages();
+
+        Storage thisStorage = null;
+        for (Storage storage : storages) {
+            if (storage.getAddress().equals(address)) {
+                thisStorage = storage;
+            }
+        }
+        if (thisStorage != null && thisStorage.isClosed().equals("false")) {
+            thisStorage.setClosed("true");
 
             ArrayList<Employee> employees = Employee.getEmployees();
             for (Employee employee : employees) {
@@ -75,12 +86,16 @@ public class PointManagerMenu {
                 }
             }
 
+            if (employees.get(0) != null) {
+                employees.get(0).updateEmployeesFile(employees);
+            }
+            emptyStorage.updateStorageFile(storages);
             System.out.print("Склад закрыт, а все его сотрудники уволены.");
         } else {
             System.out.print("Склад по указанному адресу не существует.");
         }
 
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 
     public static void closeSalePoint() throws IOException, InvalidFormatException {
@@ -91,9 +106,16 @@ public class PointManagerMenu {
         System.out.print("Введите адрес места, где хотите закрыть склад: ");
         String address = scanner.nextLine();
         SalePoint emptySalePoint = new SalePoint();
-        SalePoint thisSalePoint = emptySalePoint.findSalePointByAddress(address);
-        if (thisSalePoint != null && !thisSalePoint.isClosed()) {
-            thisSalePoint.setClosed(true);
+        ArrayList<SalePoint> salePoints = emptySalePoint.getSalePoints();
+
+        SalePoint thisSalePoint = null;
+        for (SalePoint salePoint : salePoints) {
+            if (salePoint.getAddress().equals(address)) {
+                thisSalePoint = salePoint;
+            }
+        }
+        if (thisSalePoint != null && thisSalePoint.isClosed().equals("false")) {
+            thisSalePoint.setClosed("true");
 
             ArrayList<Employee> employees = Employee.getEmployees();
             for (Employee employee : employees) {
@@ -102,30 +124,37 @@ public class PointManagerMenu {
                 }
             }
 
+            if (employees.get(0) != null) {
+                employees.get(0).updateEmployeesFile(employees);
+            }
+            emptySalePoint.updateSalePointFile(salePoints);
             System.out.print("Пункт продаж закрыт, а все его сотрудники уволены.");
         } else {
-            System.out.print("Пункт продаж по указанному адресу не существует.");
+            if (thisSalePoint.isClosed().equals("false")) {
+                System.out.print("Пункт продаж по указанному адресу не существует.");
+            } else {
+                thisSalePoint.setClosed("false");
+            }
         }
 
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 
     public static void printStorages() throws IOException, InvalidFormatException {
         Utils.clearConsole();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Введите адрес места, где хотите закрыть склад: ");
+        System.out.print("Введите адрес места, где находится склад: ");
         String address = scanner.nextLine();
         Storage emptyStorage = new Storage();
         Storage thisStorage = emptyStorage.findStorageByAddress(address);
-        if (thisStorage != null && !thisStorage.isClosed()) {
-
+        if (thisStorage != null && thisStorage.isClosed().equals("false")) {
             System.out.println("Id: " + thisStorage.getId() + " Address: " + thisStorage.getAddress());
         } else {
             System.out.print("Склад по указанному адресу не существует.");
         }
 
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 
     public static void printSalePoints() throws IOException, InvalidFormatException {
@@ -136,13 +165,13 @@ public class PointManagerMenu {
         String address = scanner.nextLine();
         SalePoint emptySalePoint = new SalePoint();
         SalePoint thisSalePoint = emptySalePoint.findSalePointByAddress(address);
-        if (thisSalePoint != null && !thisSalePoint.isClosed()) {
+        if (thisSalePoint != null && thisSalePoint.isClosed().equals("false")) {
             System.out.println("Id: " + thisSalePoint.getId() + " Address: " + thisSalePoint.getAddress());
         } else {
             System.out.print("Пункт выдачи по указанному адресу не существует.");
         }
 
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 
     public static void printCellsOnStorage() throws IOException, InvalidFormatException {
@@ -153,23 +182,20 @@ public class PointManagerMenu {
         String address = scanner.nextLine();
         Storage emptyStorage = new Storage();
         Storage thisStorage = emptyStorage.findStorageByAddress(address);
-        if (thisStorage != null && !thisStorage.isClosed()) {
+        if (thisStorage != null && thisStorage.isClosed().equals("false")) {
             Cell emptyCell = new Cell();
             ArrayList<Cell> cells = emptyCell.getCells();
 
-            MainMenu.moveToMainMenu();
             for (Cell cell : cells) {
                 if (thisStorage.getId() == cell.getPointId() && cell.getPointType().equals(cell.getStorageType())) {
-                    System.out.println("Id: " + cell.getId() + " PointId: " + cell.getPointId() + " Capacity: " + cell.getCapacity() + "ProductQuantity: " + cell.getProductQuantity() + "ProductId: " + cell.getProductId());
+                    System.out.println("Id: " + cell.getId() + " PointId: " + cell.getPointId() + " Capacity: " + cell.getCapacity() + " ProductQuantity: " + cell.getProductQuantity() + "ProductId: " + cell.getProductId());
                 }
             }
         } else {
             System.out.print("Склад по указанному адресу не существует.");
         }
 
-
-
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 
     public static void printCellsOnSalePoint() throws IOException, InvalidFormatException {
@@ -180,14 +206,13 @@ public class PointManagerMenu {
         String address = scanner.nextLine();
         SalePoint emptySalePoint = new SalePoint();
         SalePoint thisSalePoint = emptySalePoint.findSalePointByAddress(address);
-        if (thisSalePoint != null && !thisSalePoint.isClosed()) {
+        if (thisSalePoint != null && thisSalePoint.isClosed().equals("false")) {
             Cell emptyCell = new Cell();
             ArrayList<Cell> cells = emptyCell.getCells();
 
-            MainMenu.moveToMainMenu();
             for (Cell cell : cells) {
                 if (thisSalePoint.getId() == cell.getPointId() && cell.getPointType().equals(cell.getSalePointType())) {
-                    System.out.println("Id: " + cell.getId() + " PointId: " + cell.getPointId() + " Capacity: " + cell.getCapacity() + "ProductQuantity: " + cell.getProductQuantity() + "ProductId: " + cell.getProductId());
+                    System.out.println("Id: " + cell.getId() + " PointId: " + cell.getPointId() + " Capacity: " + cell.getCapacity() + " ProductQuantity: " + cell.getProductQuantity() + "ProductId: " + cell.getProductId());
                 }
             }
         } else {
@@ -196,6 +221,78 @@ public class PointManagerMenu {
 
 
 
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
+    }
+
+    public static void addCell() throws IOException, InvalidFormatException {
+        Utils.clearConsole();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("====== МИНЮ СОЗДАНИЯ ЯЧЕЙКИ ======\n\n");
+        System.out.print("Введите \"storage\" или \"sell_point\": ");
+        String pointType = scanner.nextLine();
+
+        switch (pointType) {
+            case "storage":
+                addCellToStorage();
+                break;
+            case "sell_point":
+                addCellToSalePoint();
+                break;
+            default:
+                System.out.println("Неверный выбор.");
+                break;
+        }
+    }
+
+    private static void addCellToStorage() throws IOException, InvalidFormatException {
+        Utils.clearConsole();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Введите storage address: ");
+        String address = scanner.nextLine();
+
+        System.out.print("Введите productId: ");
+        int productId = scanner.nextInt();
+
+        Storage emptyStorage = new Storage();
+        if (emptyStorage.findStorageByAddress(address) == null) {
+            System.out.print("Не существует склада с указанным address.");
+        } else {
+            Storage thisStorage = emptyStorage.findStorageByAddress(address);
+            Cell emptyCell = new Cell();
+            Cell cell = new Cell(emptyCell.getCells().size() + 1, 200, thisStorage.getId(), productId, 0, emptyCell.getStorageType());
+            ArrayList<Cell> cells = emptyCell.getCells();
+            cells.add(cell);
+            emptyCell.updateCellFile(cells);
+            System.out.print("Ячейка создана");
+        }
+
+        EmployeeMenu.moveToEmployeeMenu();
+    }
+
+    private static void addCellToSalePoint() throws IOException, InvalidFormatException {
+        Utils.clearConsole();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Введите SalePoint address: ");
+        String address = scanner.nextLine();
+
+        System.out.print("Введите productId: ");
+        int productId = scanner.nextInt();
+
+        SalePoint emptySalePoint = new SalePoint();
+        if (emptySalePoint.findSalePointByAddress(address) == null) {
+            System.out.print("Не существует очки продаж с указанным address.");
+        } else {
+            Cell emptyCell = new Cell();
+            Cell cell = new Cell(emptyCell.getCells().size(), 50, emptySalePoint.findSalePointByAddress(address).getId(), productId, 0, emptyCell.getSalePointType());
+            ArrayList<Cell> cells = emptyCell.getCells();
+            cells.add(cell);
+            emptyCell.updateCellFile(cells);
+            System.out.print("Ячейка создана");
+        }
+
+        EmployeeMenu.moveToEmployeeMenu();
     }
 }

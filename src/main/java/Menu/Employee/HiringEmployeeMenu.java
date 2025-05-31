@@ -73,7 +73,7 @@ public class HiringEmployeeMenu {
             }
         }
 
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 
     private static void hireEmployeeToSalePoint() throws IOException, InvalidFormatException {
@@ -116,6 +116,6 @@ public class HiringEmployeeMenu {
             }
         }
 
-        MainMenu.moveToMainMenu();
+        EmployeeMenu.moveToEmployeeMenu();
     }
 }

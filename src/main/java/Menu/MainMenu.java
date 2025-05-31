@@ -38,11 +38,12 @@ public class MainMenu {
     }
 
     public static void moveToMainMenu() throws IOException, InvalidFormatException {
-        Utils.clearConsole();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Нажмите любую клавишу, чтобы перейти в главное меню.");
+        System.out.println("\nНажмите любую клавишу, чтобы перейти в главное меню.");
         scanner.nextLine();
+
+        Utils.clearConsole();
         MainMenu.openMainMenu();
     }
 }

@@ -10,14 +10,14 @@ import java.util.ArrayList;
 public class Point {
     private int id;
     private String address;
-    private boolean isClosed;
+    private String isClosed;
 
     private final String CELL_XLSX_FILE_PATH = "./files/cell.xlsx";
 
     public Point() {
     }
 
-    public Point(int id, String address, boolean isClosed) {
+    public Point(int id, String address, String isClosed) {
         this.id = id;
         this.address = address;
         this.isClosed = isClosed;
@@ -65,11 +65,11 @@ public class Point {
         return address;
     }
 
-    public boolean isClosed() {
+    public String isClosed() {
         return isClosed;
     }
 
-    public void setClosed(boolean closed) {
+    public void setClosed(String closed) {
         isClosed = closed;
     }
 }
